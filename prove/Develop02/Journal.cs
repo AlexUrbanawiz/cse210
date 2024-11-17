@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.Intrinsics.X86;
 using System.Security;
 using System.Text.RegularExpressions;
+using System.IO;
 
 class Journal
 {
@@ -79,7 +80,14 @@ class Journal
     {
         return prompts;
     }
-
+    public void DisplayPrompts()
+    {
+        foreach(string prompt in prompts)
+        {
+            Console.Write($"{prompt} ");
+        }
+        Console.WriteLine("");
+    }
     public void SetActiveState(bool state)
     {
         activeState = state;
@@ -93,5 +101,134 @@ class Journal
     {
         string fileName = Console.ReadLine();
         return fileName;
+    }
+    public void SaveFile()
+    {
+        Console.Write("Please input a file name: ");
+        string filename = GetFileName();
+        using (StreamWriter outputFile = new StreamWriter(filename))
+        {
+            foreach(Entry entry in entries)
+            {
+                outputFile.WriteLine($"Entry|{entry.GetEntryForFile()}");
+            }
+            foreach(string prompt in prompts)
+            {
+                outputFile.WriteLine($"Prompt|{prompt}");
+            }
+        }
+    }
+
+    public void SavePrompts()
+    {
+        Console.Write("Please input a file name: ");
+        string filename = GetFileName();
+        using (StreamWriter outputFile = new StreamWriter(filename))
+        {
+            foreach(string prompt in prompts)
+            {
+                outputFile.WriteLine(prompt);
+            }
+        }
+    }
+
+
+    public void ReadFile()
+    {
+        Console.Write("Please input a file name: ");
+        string filename = GetFileName();
+        string[] lines = System.IO.File.ReadAllLines(filename);
+        foreach(string line in lines)
+        {
+            string[] lineParts = line.Split("|");
+            string header = lineParts[0];
+            if(header == "Prompt")
+            {
+                string prompt = lineParts[1];
+                if(!prompts.Contains(prompt))
+                {   
+                prompts.Add(prompt);
+                }
+            }
+            else if(header == "Entry")
+            {
+                string date = lineParts[1];
+                string prompt = lineParts[2];
+                string response = lineParts[3];
+                SaveEntryToList(date,prompt,response);
+            }
+        }
+    }
+
+    public void ReadPrompts()
+    {
+        Console.Write("Please input a file name: ");
+        string filename = GetFileName();
+        string[] lines = System.IO.File.ReadAllLines(filename);
+        foreach(string line in lines)
+        {
+            string prompt = line;
+            if(!prompts.Contains(prompt))
+            {
+                prompts.Add(prompt);
+            }
+        }
+    }
+
+
+    public void DisplayMenu()
+    {
+        Console.WriteLine($"1. Write \n2. Add Prompt\n3. Display Prompts\n4. Display Entries\n5. Save to file\n6. Load from file\n7. Save prompts to file\n8. Load prompts from file\n9. Quit");
+    }
+    public void ProcessMenu()
+    {
+        string input = Console.ReadLine();
+        if(input.ToLower() == "write" || int.Parse(input)==1)
+        {
+            WriteEntry();
+        }
+        if(input.ToLower() == "add prompt" || int.Parse(input)==2)
+        {
+            Console.Write("Please input the new prompt: ");
+            string promptToAdd = Console.ReadLine();
+            AddPrompt(promptToAdd);
+        }
+        if(input.ToLower() == "display prompts" || int.Parse(input)==3)
+        {
+            DisplayPrompts();
+        }
+        if(input.ToLower() == "display entries" || int.Parse(input)==4)
+        {
+            DisplayEntries();
+            
+        }
+        if(input.ToLower() == "save to file" || int.Parse(input)==5)
+        {
+            SaveFile();
+        }
+        if(input.ToLower() == "load from file" || int.Parse(input)==6)
+        {
+            ReadFile();
+        }
+        if(input.ToLower() == "save prompts to file" || int.Parse(input)==7)
+        {
+            SavePrompts();
+        }
+        if(input.ToLower() == "load prompts from file" || int.Parse(input)==8)
+        {
+            ReadPrompts();
+        }
+        if(input.ToLower() == "quit" || int.Parse(input)==9)
+        {
+            SetActiveState(false);
+            Console.WriteLine("Quitting.");
+        }
+        else
+        {
+            Console.WriteLine("Press enter to continue");
+            Console.ReadLine();
+        }
+
+        
     }
 }

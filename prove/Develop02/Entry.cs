@@ -21,5 +21,10 @@ class Entry
         string entry = $"{date}: {prompt} \n{response}";
         return entry;
     }
+    public string GetEntryForFile()
+    {
+        string entry = $"{date}|{prompt}|{response}";
+        return entry;
+    }
 
 }
