@@ -3,6 +3,7 @@ using System.Runtime.Intrinsics.X86;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Collections.Generic; 
 
 class Journal
 {
@@ -183,51 +184,105 @@ class Journal
     public void ProcessMenu()
     {
         string input = Console.ReadLine();
-        if(input.ToLower() == "write" || int.Parse(input)==1)
+        int response = 0;
+        List<string> inputList = new List<string> {"write", "add prompt", "display prompts", "display entries", "save to file", "load from file", "save prompts to file", "load prompts from file", "quit"};
+
+        if(input.All(char.IsDigit))
         {
-            WriteEntry();
+            response = int.Parse(input);
         }
-        if(input.ToLower() == "add prompt" || int.Parse(input)==2)
+        else if(inputList.Contains(input.ToLower()))
         {
-            Console.Write("Please input the new prompt: ");
-            string promptToAdd = Console.ReadLine();
-            AddPrompt(promptToAdd);
+            response = inputList.IndexOf(input.ToLower()) + 1;
         }
-        if(input.ToLower() == "display prompts" || int.Parse(input)==3)
+
+        switch(response)
         {
-            DisplayPrompts();
+            case 0:
+                Console.WriteLine("Invalid response, try again");
+                break;
+            case 1:
+                WriteEntry();
+                break;
+            case 2:
+                Console.Write("Please input the new prompt: ");
+                string promptToAdd = Console.ReadLine();
+                AddPrompt(promptToAdd);
+                break;
+            case 3:
+                DisplayPrompts();
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine();
+                break;
+            case 4:
+                DisplayEntries();
+                Console.WriteLine("Press enter to continue");
+                Console.ReadLine();
+                break;
+            case 5:
+                SaveFile();
+                break;
+            case 6:
+                ReadFile();
+                break;
+            case 7:
+                SavePrompts();
+                break;
+            case 8:
+                ReadPrompts();
+                break;
+            case 9:
+                SetActiveState(false);
+                Console.WriteLine("Quitting.");
+                break;
+
         }
-        if(input.ToLower() == "display entries" || int.Parse(input)==4)
-        {
-            DisplayEntries();
+
+        // if(input.ToLower() == "write" || int.Parse(input)==1)
+        // {
+        //     WriteEntry();
+        // }
+        // if(input.ToLower() == "add prompt" || int.Parse(input)==2)
+        // {
+        //     Console.Write("Please input the new prompt: ");
+        //     string promptToAdd = Console.ReadLine();
+        //     AddPrompt(promptToAdd);
+        // }
+        // if(input.ToLower() == "display prompts" || int.Parse(input)==3)
+        // {
+        //     DisplayPrompts();
+        // }
+        // if(input.ToLower() == "display entries" || int.Parse(input)==4)
+        // {
+        //     DisplayEntries();
             
-        }
-        if(input.ToLower() == "save to file" || int.Parse(input)==5)
-        {
-            SaveFile();
-        }
-        if(input.ToLower() == "load from file" || int.Parse(input)==6)
-        {
-            ReadFile();
-        }
-        if(input.ToLower() == "save prompts to file" || int.Parse(input)==7)
-        {
-            SavePrompts();
-        }
-        if(input.ToLower() == "load prompts from file" || int.Parse(input)==8)
-        {
-            ReadPrompts();
-        }
-        if(input.ToLower() == "quit" || int.Parse(input)==9)
-        {
-            SetActiveState(false);
-            Console.WriteLine("Quitting.");
-        }
-        else
-        {
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
-        }
+        // }
+        // if(input.ToLower() == "save to file" || int.Parse(input)==5)
+        // {
+        //     SaveFile();
+        // }
+        // if(input.ToLower() == "load from file" || int.Parse(input)==6)
+        // {
+        //     ReadFile();
+        // }
+        // if(input.ToLower() == "save prompts to file" || int.Parse(input)==7)
+        // {
+        //     SavePrompts();
+        // }
+        // if(input.ToLower() == "load prompts from file" || int.Parse(input)==8)
+        // {
+        //     ReadPrompts();
+        // }
+        // if(input.ToLower() == "quit" || int.Parse(input)==9)
+        // {
+        //     SetActiveState(false);
+        //     Console.WriteLine("Quitting.");
+        // }
+        // else
+        // {
+        //     Console.WriteLine("Press enter to continue");
+        //     Console.ReadLine();
+        // }
 
         
     }
