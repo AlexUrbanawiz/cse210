@@ -10,10 +10,7 @@ class Reference
         this.reference = reference;
         this.verse = verse;
         allWords = SplitString(verse);
-        // foreach(Word word in allWords)
-        // {
-        //     wordDictionary.Add(word, word.GetHidden());
-        // }
+        numWordsToHide = 3;
     }
     public Reference(string reference, string verse, int numWordsToHide)
     {
@@ -26,18 +23,25 @@ class Reference
     {
         this.numWordsToHide = numWordsToHide;
     }
+    public int GetWordsToHide()
+    {
+        return numWordsToHide;
+    }
     public List<Word> SplitString(string text)
     {
         List<Word> wordList = new List<Word>();
         string[] stringList = text.Split(" ");
+        
         foreach(string word in stringList)
         {
-            wordList.Add(new Word(word));
+            Word newWord = new Word(word);
+            wordList.Add(newWord);
         }
         return wordList;
     }
     public void HideRandomWord()
     {
+        
         for(int i = 0; i < numWordsToHide; i++)
         {
             Word randomWord = null;
@@ -54,8 +58,14 @@ class Reference
 
     public string Display()
     {
-        string displayString = "";
-
+        string displayString = $"{reference}\n";
+        
+        foreach(Word word in allWords)
+        {
+            string stringToAdd = word.Display();
+            displayString += stringToAdd;
+            displayString += " ";
+        }
         return displayString;
     }
 
