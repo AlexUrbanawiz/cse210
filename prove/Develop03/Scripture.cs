@@ -4,7 +4,7 @@ class Scripture
 {
     private Reference currentScripture;
     private bool activeState;
-    private List<Reference> scriptures;
+    private List<Reference> scriptures = new List<Reference>();
 
     public Scripture(List<Reference> scriptures)
     {
@@ -24,6 +24,12 @@ class Scripture
         activeState = true;
         SelectRandomScripture();
     }
+    public Scripture(string reference, string verse1, string verse2)
+    {
+        AddScripture(reference, verse1, verse2);
+        activeState = true;
+        SelectRandomScripture();
+    }
     public void SelectRandomScripture()
     {
         Random random = new Random();
@@ -33,6 +39,15 @@ class Scripture
     public void AddScripture(string reference, string verse)
     {
         Reference newReference = new Reference(reference, verse);
+        scriptures.Add(newReference);
+    }
+    public void AddScripture(Reference reference)
+    {
+        scriptures.Add(reference);
+    }
+    public void AddScripture(string reference, string verse1, string verse2)
+    {
+        Reference newReference = new Reference(reference, verse1, verse2);
         scriptures.Add(newReference);
     }
     public bool GetActiveState()
@@ -50,5 +65,39 @@ class Scripture
             currentScripture.SetWordsToHide(newNumber);
         }
         currentScripture.HideRandomWord();
+    }
+    public void Quit()
+    {
+        Console.WriteLine("Quitting");
+        activeState = false;
+    }
+
+    public void Display()
+    {
+        Console.WriteLine(currentScripture.Display());
+        Console.WriteLine("Type enter to continue or quit to quit.");
+        string answer = Console.ReadLine();
+        if(answer.ToLower() == "enter")
+        {
+            if(currentScripture.GetNumWordsHidden() < currentScripture.GetNumWordsInScripture())
+            {
+                HideWord();
+            }
+            else
+            {
+                Console.WriteLine("All words are hidden, ending the program.");
+                Quit();
+            }
+
+        }
+        else if(answer.ToLower() == "quit")
+        {
+            Quit();
+        }
+        else
+        {
+            Console.WriteLine("Not a valid input, try agin");
+            Display();
+        }
     }
 }
