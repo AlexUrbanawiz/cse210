@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection.Metadata;
 
 class Scripture
@@ -5,18 +6,21 @@ class Scripture
     private Reference currentScripture;
     private bool activeState;
     private List<Reference> scriptures = new List<Reference>();
+    //private bool scriptureHidden;
 
     public Scripture(List<Reference> scriptures)
     {
         this.scriptures = scriptures;
         activeState = true;
         SelectRandomScripture();
+        //scriptureHidden = false;
     }
     public Scripture(Reference scripture)
     {
         scriptures.Add(scripture);
         activeState = true;
         SelectRandomScripture();
+        //scriptureHidden = false;
     }
     public Scripture(string reference, string verse)
     {
@@ -71,11 +75,19 @@ class Scripture
         Console.WriteLine("Quitting");
         activeState = false;
     }
+    public void Reset()
+    {
+        foreach(Reference reference in scriptures)
+        {
+            reference.ResetWords();
+        }
+        Console.WriteLine("All scriptures are reset!");
+    }
 
     public void Display()
     {
         Console.WriteLine(currentScripture.Display());
-        Console.WriteLine("Type enter to continue or quit to quit.");
+        Console.WriteLine("Type enter to continue, quit to quit, random for a random scripture, or reset to reset all scriptures.");
         string answer = Console.ReadLine();
         if(answer.ToLower() == "enter")
         {
@@ -83,8 +95,14 @@ class Scripture
             {
                 HideWord();
             }
+            // else if(currentScripture.GetNumWordsHidden() == currentScripture.GetNumWordsInScripture() && !scriptureHidden)
+            // {
+            //     currentScripture.Display();
+            //     scriptureHidden = true;
+            // }
             else
             {
+                currentScripture.Display();
                 Console.WriteLine("All words are hidden, ending the program.");
                 Quit();
             }
@@ -93,6 +111,14 @@ class Scripture
         else if(answer.ToLower() == "quit")
         {
             Quit();
+        }
+        else if(answer.ToLower() == "random")
+        {
+            SelectRandomScripture();
+        }
+        else if(answer.ToLower() == "reset")
+        {
+            Reset();
         }
         else
         {

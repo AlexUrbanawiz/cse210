@@ -55,6 +55,17 @@ class Reference
         }
         return wordList;
     }
+    public void ResetWords()
+    {
+        foreach(Word word in verse1Words)
+        {
+            word.RevertFromUnderscore();
+        }
+        foreach(Word word1 in verse2Words)
+        {
+            word1.RevertFromUnderscore();
+        }
+    }
     public void HideRandomWord()
     {
 

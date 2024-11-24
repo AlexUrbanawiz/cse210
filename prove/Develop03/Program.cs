@@ -72,6 +72,8 @@ class Program
         // myScripture.AddScripture(alma28);
         // myScripture.AddScripture(threeNephi6);
         Scripture myScripture = new Scripture(threeNephi6);
+        myScripture.AddScripture(alma28);
+        myScripture.SelectRandomScripture();
         while(myScripture.GetActiveState())
         {
             myScripture.Display();

@@ -20,6 +20,11 @@ class Word
         }
         hidden = true;
     }
+    public void RevertFromUnderscore()
+    {
+        displayWord = baseWord;
+        hidden = false;
+    }
     public bool GetHidden()
     {
         return hidden;
