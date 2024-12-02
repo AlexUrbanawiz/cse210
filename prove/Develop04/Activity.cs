@@ -1,3 +1,5 @@
+using System.Data;
+
 class Activity
 {
     private string activityName;
@@ -5,7 +7,7 @@ class Activity
     private int activityDuration;
     private int bufferDuration;
     private List<string> prompts;
-    private List<string> usedPrompts;
+    private List<string> usedPrompts = new List<string>();
     private int countdownDuration;
     public Activity(string activityName, string activityDescription, int bufferDuration)
     {
@@ -89,5 +91,24 @@ class Activity
     public int GetCountDownDuration()
     {
         return countdownDuration;
+    }
+    public string SelectRandomString()
+    {
+        Random random = new Random();
+        int randomIndex = 0;
+        string selectedString = "aaaa";
+        do
+        {
+            randomIndex = random.Next(prompts.Count);
+            selectedString = prompts[randomIndex];
+        }
+        while(usedPrompts.Contains(selectedString));
+        usedPrompts.Add(selectedString);
+        return selectedString;
+
+    }
+    public int GetBufferDuration()
+    {
+        return bufferDuration;
     }
 }
