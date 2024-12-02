@@ -1,0 +1,93 @@
+class Activity
+{
+    private string activityName;
+    private string activityDescription;
+    private int activityDuration;
+    private int bufferDuration;
+    private List<string> prompts;
+    private List<string> usedPrompts;
+    private int countdownDuration;
+    public Activity(string activityName, string activityDescription, int bufferDuration)
+    {
+        this.activityName = activityName;
+        this.activityDescription = activityDescription;
+        this.bufferDuration = bufferDuration;
+    }
+    public Activity(string activityName, string activityDescription, int bufferDuration, int countdownDuration)
+    {
+        this.activityName = activityName;
+        this.activityDescription = activityDescription;
+        this.bufferDuration = bufferDuration;
+        this.countdownDuration = countdownDuration;
+    }
+    public Activity(string activityName, string activityDescription, int bufferDuration, List<string> prompts)
+    {
+        this.activityName = activityName;
+        this.activityDescription = activityDescription;
+        this.bufferDuration = bufferDuration;
+        this.prompts = prompts;
+    }
+    public Activity(string activityName, string activityDescription, int bufferDuration, int countdownDuration, List<string> prompts)
+    {
+        this.activityName = activityName;
+        this.activityDescription = activityDescription;
+        this.bufferDuration = bufferDuration;
+        this.countdownDuration = countdownDuration;
+        this.prompts = prompts;
+    }
+
+    public string GetStartingMessage()
+    {
+        return $"{activityName} - {activityDescription}";
+    }
+    public void AskForDuration()
+    {
+        Console.Write("Please input the duration of the activity:");
+        int input = int.Parse(Console.ReadLine());
+        activityDuration = input;
+    }
+    public void PrintEndMessage()
+    {
+        Console.WriteLine("You have done a good job!");
+        Spinner(bufferDuration);
+        Console.WriteLine($"You did the {activityName} activity for {activityDuration} seconds.");
+
+    }
+    public int GetActivityDuration()
+    {
+        return activityDuration;
+    }
+    public void Spinner(int duration)
+    {
+        for(int i = 0; i < duration; i++)
+        {
+            Console.Write("|");
+            Thread.Sleep(250);
+            Console.Write("\b \b");
+            Console.Write("/");
+            Thread.Sleep(250);
+            Console.Write("\b \b");
+            Console.Write("-");
+            Thread.Sleep(250);
+            Console.Write("\b \b");
+            Console.Write("\\");
+            Thread.Sleep(250);
+            Console.Write("\b \b");
+            Console.Write("|");
+            Console.Write("\b \b");
+        }
+    }
+    public void CountDown()
+    {
+        for(int i = countdownDuration; i > 0; i--)
+        {
+            Console.Write(i);
+            Thread.Sleep(1000);
+            Console.Write("\b \b");
+        }
+    }
+    public int GetCountDownDuration()
+    {
+        return countdownDuration;
+    }
+}
