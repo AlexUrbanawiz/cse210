@@ -10,4 +10,8 @@ class Doctor : Person
     {
         return $"{tools}, {GetPersonInfo()}";
     }
+    public override string GetPersonInfo()
+    {
+        return $"I am a Doctor, my tools are {tools}, my info is {base.GetPersonInfo()}";
+    }
 }

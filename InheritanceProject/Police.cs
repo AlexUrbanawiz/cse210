@@ -9,4 +9,12 @@ class Police : Person
     {
         return $"{weapons}, {GetPersonInfo()}";
     }
+    public override void SetFirstName(string name)
+    {
+        base.SetFirstName($"{name} the cop");
+    }
+    public override string GetPersonInfo()
+    {
+        return $"I am a policeman, my weapon is {weapons}, my info is {base.GetPersonInfo()}";
+    }
 }

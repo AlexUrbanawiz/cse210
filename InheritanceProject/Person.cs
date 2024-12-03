@@ -11,8 +11,12 @@ class Person
         this.age = age;
     }
 
-    public string GetPersonInfo()
+    public virtual string GetPersonInfo()
     {
         return $"{firstName}, {lastName}, {age}";
+    }
+    public virtual void SetFirstName(string name)
+    {
+        firstName = name;
     }
 }
