@@ -44,7 +44,7 @@ class Activity
     }
     public void AskForDuration()
     {
-        Console.Write("Please input the duration of the activity:");
+        Console.Write("Please input the duration of the activity: ");
         int input = int.Parse(Console.ReadLine());
         activityDuration = input;
     }
@@ -94,6 +94,19 @@ class Activity
     }
     public string SelectRandomString()
     {
+        int promptsInUsedPrompts = 0;
+        foreach(string prompt in prompts)
+        {
+            if(usedPrompts.Contains(prompt))
+            {
+                promptsInUsedPrompts ++;
+            }
+        }
+        if(promptsInUsedPrompts == prompts.Count)
+        {
+            usedPrompts.Clear();
+            promptsInUsedPrompts =0;
+        }
         Random random = new Random();
         int randomIndex = 0;
         string selectedString = "aaaa";
@@ -110,5 +123,20 @@ class Activity
     public int GetBufferDuration()
     {
         return bufferDuration;
+    }
+    public string DisplayPrompt()
+    {
+        string prompt = SelectRandomString();
+        return prompt;
+    }
+    public int AskForRating()
+    {
+        Console.WriteLine("How would you rate the previous activity out of 10? ");
+        int input = int.Parse(Console.ReadLine());
+        return input;
+    }
+    public string GetName()
+    {
+        return activityName;
     }
 }

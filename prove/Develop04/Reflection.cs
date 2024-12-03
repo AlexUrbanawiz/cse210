@@ -6,11 +6,6 @@ class Reflection : Activity
     {
         this.questions = questions;
     }
-    public string DisplayPrompt()
-    {
-        string prompt = SelectRandomString();
-        return prompt;
-    }
     public string DisplayQuestion()
     {
         Random random = new Random();
