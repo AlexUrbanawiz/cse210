@@ -1,4 +1,4 @@
-class Person
+abstract class Person
 {
     private string firstName;
     private string lastName;
@@ -11,12 +11,16 @@ class Person
         this.age = age;
     }
 
-    public virtual string GetPersonInfo()
+    public abstract string GetPersonInfo();
+    // {
+    //     return $"{firstName}, {lastName}, {age}";
+    // }
+    public string GetBaseInfo()
     {
         return $"{firstName}, {lastName}, {age}";
     }
-    public virtual void SetFirstName(string name)
+    public virtual void SetFirstName(string firstName)
     {
-        firstName = name;
+        this.firstName = firstName;
     }
 }
