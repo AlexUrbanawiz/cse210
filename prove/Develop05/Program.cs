@@ -63,10 +63,13 @@ class Program
     static void Main(string[] args)
     {
         Menu menu = new Menu();
-        Goals goals = new Goals(new List<Goal>{});
+        Goals goals = new Goals(new List<Goal>{}, .3, 2);
         bool active = true;
+        Console.ForegroundColor = goals.GetCurrentColor(goals.GetLevel());
+        Console.WriteLine("Welcome to the goal manager!\nAs you complete goals you earn points, and once you reach enough points you level up and the color changes!");
         while(active)
         {
+            Console.ForegroundColor = goals.GetCurrentColor(goals.GetLevel());
             int input = menu.DisplayBaseMenu();
             switch(input)
             {

@@ -1,21 +1,45 @@
-using System.IO; 
+using System.IO;
+using System.Reflection.Metadata;
+
+
 class Goals
 {
+
     private List<Goal> goalList;
     private Dictionary<string, Goal> goalDictionary = new Dictionary<string, Goal>();
     private int totalPoints;
+    private int level;
+    private double[] xpScaling;
+    private const int XINDEX = 0;
+    private const int YINDEX = 1;
     private string filename;
-    public Goals(List<Goal> goals)
+    public Goals(List<Goal> goals, double x, double y)
     {
         goalList = goals;
         totalPoints = 0;
         ConstructGoalDictionary();
+        xpScaling = new double[]{x,y};
     }
-    public Goals()
+    public Goals(double x, double y)
     {
         goalList = new List<Goal>();
         totalPoints = 0;
         ConstructGoalDictionary();
+        xpScaling = new double[]{x,y};
+    }
+    private void CalculateLevel()
+    {
+        level = (int)Math.Floor((xpScaling[XINDEX] * Math.Pow(totalPoints, Math.Pow(xpScaling[YINDEX], -1))));
+    }
+    private int CalculateXPNeededForNextLevel()
+    {
+        int xp = (int)Math.Pow(((level+1)/xpScaling[XINDEX]),xpScaling[YINDEX]);
+        int difference = xp-totalPoints;
+        return difference;
+    }
+    public int GetLevel()
+    {
+        return level;
     }
     private void ConstructGoalDictionary()
     {
@@ -35,6 +59,21 @@ class Goals
             
         }
         Console.WriteLine($"You have {totalPoints} points");
+        Console.WriteLine($"You are level {level}, and need {CalculateXPNeededForNextLevel()} points to reach the next level");
+        Console.WriteLine($"Your next color is {GetCurrentColor(level+1)}");
+    }
+    public ConsoleColor GetCurrentColor(int level)
+    {
+        ConsoleColor[] consoleColors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
+        consoleColors.Reverse();
+        if(level >= consoleColors.Count())
+        {
+            return consoleColors[level % consoleColors.Count()];
+        }
+        else
+        {
+            return consoleColors[level];
+        }
     }
     public void SaveGoals()
     {
@@ -52,7 +91,7 @@ class Goals
     {
         AskForFileName();
         string[] lines = System.IO.File.ReadAllLines(filename);
-        totalPoints = int.Parse(lines[0]);
+        AddPoints(int.Parse(lines[0]));
         foreach (string line in lines)
         {
             if(line != lines[0])
@@ -123,6 +162,7 @@ class Goals
     public void AddPoints(int pointsToAdd)
     {
         totalPoints += pointsToAdd;
+        CalculateLevel();
     }
 
 }
