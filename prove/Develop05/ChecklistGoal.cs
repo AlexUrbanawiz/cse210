@@ -15,7 +15,7 @@ class ChecklistGoal : Goal
         this.bonusThreshold = bonusThreshold;
         this.timesCompleted = timesCompleted;
         this.bonusPoints = bonusPoints;
-        
+
     }
     private int GetThreshold()
     {
@@ -37,12 +37,17 @@ class ChecklistGoal : Goal
         if(timesCompleted == bonusThreshold)
         {
             pointSum += bonusPoints;
+            MarkComplete();
         }
         return pointSum;
     }
     public override string GetSaveFormat()
     {
-        string output = $"EternalGoal,{base.GetSaveFormat},{bonusThreshold},{timesCompleted},{bonusPoints}";
+        string output = $"ChecklistGoal,{base.GetSaveFormat},{bonusThreshold},{timesCompleted},{bonusPoints}";
         return output;
+    }
+    public override string ToString()
+    {
+        return $"[{timesCompleted}/{bonusThreshold}] {base.ToString()}";
     }
 }

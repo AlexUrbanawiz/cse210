@@ -33,7 +33,11 @@ abstract class Goal
     {
         return name;
     }
-    public bool GetCompleation()
+    public string GetDescription()
+    {
+        return description;
+    }
+    public bool GetCompletion()
     {
         return complete;
     }
@@ -60,6 +64,9 @@ abstract class Goal
     }
     public abstract int RecordEvent();
 
-
+    public override string ToString()
+    {
+        return $"{name} ({description})";
+    }
 
 }

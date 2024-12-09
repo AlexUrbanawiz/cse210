@@ -18,4 +18,17 @@ class SimpleGoal : Goal
     {
         return $"SimpleGoal,{base.GetSaveFormat()}";
     }
+    public override string ToString()
+    {
+        string completed = "";
+        if(GetCompletion())
+        {
+            completed = "x";
+        }
+        else
+        {
+            completed = " ";
+        }
+        return $"[{completed}] {base.ToString()} ";
+    }
 }

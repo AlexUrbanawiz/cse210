@@ -89,7 +89,13 @@ class Program
                             goals.AddGoal(eternalGoal);
                             break;
                         case 3:
-                            Console.Write()
+                            Console.Write("How many times can the goal be completed? ");
+                            int bonusThreshold = int.Parse(Console.ReadLine());
+                            Console.Write("How much should be awarded on max completion? ");
+                            int bonusPoints = int.Parse(Console.ReadLine());
+                            ChecklistGoal checklistGoal = new ChecklistGoal(name, description, points, bonusThreshold, bonusPoints);
+                            goals.AddGoal(checklistGoal);
+                            break;
                     }
                     break;
                 case 2:
@@ -108,9 +114,10 @@ class Program
                     {
                         Console.WriteLine($"{i+1}. {goalNames[i]}");
                     }
-                    string goalSelected = goalNames[int.Parse(Console.ReadLine())+1];
+                    Console.Write("Enter the number of the goal to record an event for: ");
+                    string goalSelected = goalNames[int.Parse(Console.ReadLine())-1];
                     Goal selectedGoal = goals.GetGoal(goalSelected);
-                    selectedGoal.RecordEvent();
+                    goals.AddPoints(selectedGoal.RecordEvent());
                     break;
                 case 6:
                     active = false;

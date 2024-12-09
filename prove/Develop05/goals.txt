@@ -1,0 +1,3 @@
+10
+EternalGoal,Practice Coding,watch a coding tutorial,False,10
+ChecklistGoal,CheckList Test,testing the checklist,False,5,5,3,300

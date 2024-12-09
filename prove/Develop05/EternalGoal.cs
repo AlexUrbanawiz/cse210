@@ -13,4 +13,8 @@ class EternalGoal : Goal
     {
         return $"EternalGoal,{base.GetSaveFormat()}";
     }
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }
