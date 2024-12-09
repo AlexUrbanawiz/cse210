@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Reflection.Metadata;
 
@@ -80,7 +81,8 @@ class Goals
         AskForFileName();
         using (StreamWriter outputFile = new StreamWriter(filename))
         {
-            outputFile.WriteLine($"{totalPoints}");
+            outputFile.WriteLine($"Points,{totalPoints}");
+            outputFile.WriteLine($"Level,{level}");
             foreach(Goal goal in goalList)
             {
                 outputFile.WriteLine(goal.GetSaveFormat());
@@ -91,13 +93,17 @@ class Goals
     {
         AskForFileName();
         string[] lines = System.IO.File.ReadAllLines(filename);
-        AddPoints(int.Parse(lines[0]));
         foreach (string line in lines)
         {
-            if(line != lines[0])
+            string[] parts = line.Split(",");
+            string goalType = parts[0];
+            if(goalType == "Points")
             {
-                string[] parts = line.Split(",");
-                string goalType = parts[0];
+                int totalPoints = int.Parse(parts[1]);
+                AddPoints(totalPoints);
+            } 
+            else
+            {
                 string name = parts[1];
                 string description = parts[2];
                 bool complete = bool.Parse(parts[3]);
@@ -120,7 +126,6 @@ class Goals
                     EternalGoal eternalGoal = new EternalGoal(name, description, points);
                     goalList.Add(eternalGoal);
                 }
-
             }
             
         }
