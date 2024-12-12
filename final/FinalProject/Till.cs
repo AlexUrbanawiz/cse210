@@ -5,25 +5,27 @@ class Till
     private int expenses;
     private int profit;
 
-    public void DisplayCurrentMoney()
+    public int DisplayCurrentMoney()
     {
-        Console.WriteLine(currentMoney);
+        return currentMoney;
     }
-    public void DisplayLifetimeEarnings()
+    public int DisplayLifetimeEarnings()
     {
-        Console.WriteLine(lifetimeEarnings);
+        return lifetimeEarnings;
     }
     private void CalculateProfit()
     {
         profit = lifetimeEarnings - expenses;
     }
-    public void DisplayProfit()
+    public int DisplayProfit()
     {
-        Console.WriteLine(profit);
+        CalculateProfit();
+        return profit;
     }
     public void AddExpense(int expense)
     {
         expenses += expense;
+        SubtractMoney(expense);
     }
 
     public void SubtractMoney(int moneyToRemove)
@@ -33,5 +35,6 @@ class Till
     public void AddMoney(int moneyToAdd)
     {
         currentMoney += moneyToAdd;
+        lifetimeEarnings += moneyToAdd;
     }
 }
