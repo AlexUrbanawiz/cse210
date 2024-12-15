@@ -8,7 +8,7 @@ class Scaling
 
     public double CalculateTimerScale(int x)
     {
-        double y = (int)2*(Math.Pow(Math.E, (-0.2 * x)));
+        double y = 3*(Math.Pow(Math.E, (-0.1 * x)));
         return y;
     }
 }

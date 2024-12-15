@@ -3,15 +3,19 @@ class Inspector : Person
 
 
 
-    public Inspector(string name, int pointsForServing, int easiness, double timeBase) : base(name, pointsForServing, "Inspector", easiness, timeBase)
+    public Inspector(string name, int pointsForServing, int easiness, int timeBase, Item favoriteItem) : base(name, pointsForServing, "Inspector", easiness, timeBase, favoriteItem)
     {
     }
 
 
-    public override void Action()
+    public override void Action(Tavern tavern)
     {
-        CheckForSpeedyService();
-        
+        base.Action(tavern);
+        tavern.incrementInspectorsServed();
+    }
+    public override void PityAction(Tavern tavern)
+    {
+        tavern.Failed();
     }
 
 

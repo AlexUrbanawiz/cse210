@@ -7,22 +7,25 @@ class Person
     private double timeBase;
     private double timeAllowed;
     private int timePassed;
-
+    private Item favoriteItem;
     private int score;
 
     private DateTime startTime;
     private DateTime endTime;
 
     private Scaling scaling;
+    private bool servedCorrectly;
+    private bool servedQuickly;
 
 
-    public Person(string name, int pointsForServing, string role, int easiness, double timeBase)
+    public Person(string name, int pointsForServing, string role, int easiness, double timeBase, Item favoriteItem)
     {
         this.name = name;
         this.pointsForServing = pointsForServing;
         this.role = role;
         this.easiness = easiness;
         this.timeBase =  timeBase;
+        this.favoriteItem = favoriteItem;
     }
 
     public void SetScaler(Scaling scaling)
@@ -34,9 +37,28 @@ class Person
         this.score = score;
     }
 
+    public void Serve(Item item)
+    {
+        if(item == favoriteItem)
+        {
+            servedCorrectly = true;
+        }
+        else
+        {
+            servedCorrectly = false;
+        }
+    }
+    public bool GetServedCorrectly()
+    {
+        return servedCorrectly;
+    }
+    public bool GetServedQuickly()
+    {
+        return servedQuickly;
+    }
     public void ScaleTime()
     {
-        timeAllowed = (timeBase * scaling.CalculateTimerScale(score))*(easiness/5);
+        timeAllowed = (timeBase * scaling.CalculateTimerScale(score))*((double)easiness/5);
     }
 
     public void StartTimer()
@@ -50,28 +72,38 @@ class Person
         timePassed = timeElapsed.Seconds;
     }
 
-    public bool CheckForSpeedyService()
+    public void CheckForSpeedyService()
     {
         if(timePassed <= timeAllowed)
         {
-            return true;
+            servedQuickly = true;
         }
         else
         {
-            return false;
+            servedQuickly = false;
         }
         
     }
 
-    public virtual void Action()
+    public virtual void Action(Tavern tavern)
+    {
+        tavern.incrementScore(1);
+    }
+    public virtual void PityAction(Tavern tavern)
     {
     }
 
     public override string ToString()
     {
         ScaleTime();
-        return $"{name} is a {role}, and has a rating of {easiness}/10. They must be served within {timeAllowed}";
+        timeAllowed = Math.Ceiling(timeAllowed);
+        return $"{name} is a {role}, and has a rating of {easiness}/10. They must be served within {timeAllowed} seconds";
     }
 
+    public string DisplayPersonIntro()
+    {
+        string intro = $"Hi I'm {name}, a {role}. My favorite item is {favoriteItem}, and need to be served in {timeAllowed} seconds";
+        return intro;
+    }
 
 }

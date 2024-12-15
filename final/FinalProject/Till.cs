@@ -37,4 +37,8 @@ class Till
         currentMoney += moneyToAdd;
         lifetimeEarnings += moneyToAdd;
     }
+    public void SetMoney(int money)
+    {
+        currentMoney = money;
+    }
 }

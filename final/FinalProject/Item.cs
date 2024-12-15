@@ -20,6 +20,6 @@ class Item
     }
     public override string ToString()
     {
-        return $"{name} costs {cost} and is a {type}";
+        return $"{name}";
     }
 }
