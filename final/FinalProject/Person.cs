@@ -26,6 +26,7 @@ class Person
         this.easiness = easiness;
         this.timeBase =  timeBase;
         this.favoriteItem = favoriteItem;
+        this.timeAllowed = 0;
     }
 
     public void SetScaler(Scaling scaling)
