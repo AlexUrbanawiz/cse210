@@ -100,10 +100,43 @@ class Person
         return $"{name} is a {role}, and has a rating of {easiness}/10. They must be served within {timeAllowed} seconds";
     }
 
-    public string DisplayPersonIntro()
+    public void DisplayPersonIntro()
     {
-        string intro = $"Hi I'm {name}, a {role}. My favorite item is {favoriteItem}, and need to be served in {timeAllowed} seconds";
-        return intro;
+        ScaleTime();
+        timeAllowed = Math.Ceiling(timeAllowed);
+        if(role == "Inspector")
+        {
+            var startColor = Console.ForegroundColor;
+            Console.Write($"Hi I'm {name}, a ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(role);
+            Console.ForegroundColor = startColor;
+            Console.WriteLine($". My favorite item is {favoriteItem}, and need to be served in {timeAllowed} seconds");
+        } 
+        else
+        {
+            var startColor = Console.ForegroundColor;
+            Console.Write($"Hi I'm {name}, a ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(role);
+            Console.ForegroundColor = startColor;
+            Console.WriteLine($". My favorite item is {favoriteItem}, and need to be served in {timeAllowed} seconds");
+        }  
     }
-
+    public double GetTimeAllowed()
+    {
+        return timeAllowed;
+    }
+    public double GetTimeBase()
+    {
+        return timeBase;
+    }
+    public string GetRole()
+    {
+        return role;
+    }
+    public string GetName()
+    {
+        return name;
+    }
 }

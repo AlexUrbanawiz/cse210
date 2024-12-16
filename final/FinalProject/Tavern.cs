@@ -84,6 +84,27 @@ class Tavern
             
         }
     }
+    public void DisplayPositiveInventory()
+    {
+        int counter = 1;
+        foreach(Item key in inventory.Keys)
+        {
+            if(inventory[key]>0)
+            {
+                Console.Write($"{counter}. ");
+                if(inventory[key]>1)
+                {
+                    Console.WriteLine($"{inventory[key]} {key.GetName()}s");
+                }
+                else
+                {
+                    Console.WriteLine($"{inventory[key]} {key.GetName()}");
+                }
+                counter ++;
+            }
+            
+        }
+    }
     public Dictionary<Item, int> GetInventory()
     {
         return inventory;
@@ -94,6 +115,13 @@ class Tavern
         Console.WriteLine($"Life Time Earnings: {till.DisplayLifetimeEarnings()}");
         Console.WriteLine($"Profit: {till.DisplayProfit()}");
 
+    }
+    public void DisplayStats()
+    {
+        Console.WriteLine($"Your score is: {score}.");
+        Console.WriteLine($"You served {customerServed} customers, and served {inspectorServed} inspectors.");
+        Console.WriteLine($"You survived {daySurvived} days.");
+        Console.WriteLine($"You served {foodServed} foods, and {drinksServed} drinks.");
     }
     public void Failed()
     {

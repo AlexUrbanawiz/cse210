@@ -5,6 +5,14 @@ class Till
     private int expenses;
     private int profit;
 
+    public Till()
+    {
+        currentMoney = 0;
+        lifetimeEarnings = 0;
+        expenses = 0;
+        profit = 0;
+    }
+
     public int DisplayCurrentMoney()
     {
         return currentMoney;

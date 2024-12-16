@@ -17,4 +17,8 @@ class Customer : Person
         tavern.AddMoney(moneyBase-1);
 
     }
+    public int GetMoneyBase()
+    {
+        return moneyBase;
+    }
 }

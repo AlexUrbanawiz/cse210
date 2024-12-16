@@ -22,4 +22,8 @@ class Item
     {
         return $"{name}";
     }
+    public string GetForm()
+    {
+        return type;
+    }
 }

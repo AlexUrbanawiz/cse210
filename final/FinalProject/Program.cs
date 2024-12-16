@@ -79,6 +79,17 @@ Need to find a good scaling formula, for the right mix of hard and easy(or just 
 class Program
 {
 
+
+
+
+    static public void BuyOneOfAll(List<Item> items, Tavern tavern)
+    {
+        foreach(Item item in items)
+        {
+            tavern.AddItemToInventory(item);
+        }
+    }
+
     static public Person CreateRandomPerson(List<Item>items, Scaling scale, Tavern tavern)
     {
         Random random = new Random();
@@ -99,7 +110,7 @@ class Program
         string name = medievalNames[random.Next(medievalNames.Count)];
         int timeBase = random.Next(20, 30);
         int easiness = random.Next(1, 11);
-        easiness = 1;
+        //easiness = 1;
         Item item = items[random.Next(items.Count)];
         if(personType == 0)
         {
@@ -127,12 +138,16 @@ class Program
         List<Item> keys = new List<Item>();
         foreach(Item item in inventory.Keys)
         {
-            keys.Add(item);
+            if(inventory[item] > 0)
+            {
+                keys.Add(item);
+            }
+            
         }
-
-        Console.WriteLine(person.DisplayPersonIntro());
+        Console.WriteLine($"Time Base: {person.GetTimeBase()}");
+        person.DisplayPersonIntro();
         person.StartTimer();
-        tavern.DisplayInventory();
+        tavern.DisplayPositiveInventory();
         Console.Write("Please enter the number associated with the item to serve: ");
         int input = int.Parse(Console.ReadLine());
         person.EndTimer();
@@ -140,21 +155,67 @@ class Program
         tavern.SubtractFromInventory(itemToServe);
         person.Serve(itemToServe);
         person.CheckForSpeedyService();
-        if(person.GetServedCorrectly() || person.GetServedQuickly())
+        if(itemToServe.GetForm() == "Drink")
         {
-            person.Action(tavern);
-            Console.WriteLine("Sucessfuly Served");
+            tavern.incrementDrinksServed();
         }
         else
         {
+            tavern.incrementFoodServed();
+        }
+        if(person.GetServedCorrectly() && person.GetServedQuickly())
+        {
+            int beforeActionBalance = tavern.GetMoney();
+            person.Action(tavern);
+            if(person.GetRole() == "Customer")
+            {
+                int postActionBalance = tavern.GetMoney();
+                int moneyGiven = postActionBalance-beforeActionBalance;
+                Console.WriteLine($"{person.GetName()} paid ${moneyGiven} for your service.");
+            }
+            else
+            {
+                Console.WriteLine($"You passed {person.GetName()}'s inspection.");
+            }
+            
+        }
+        else
+        {
+            int beforeActionBalance = tavern.GetMoney();
             person.PityAction(tavern);
-            Console.WriteLine("Unsucessfuly Served");
+            if(person.GetRole() == "Customer")
+            {
+                int postActionBalance = tavern.GetMoney();
+                int moneyGiven = postActionBalance-beforeActionBalance;
+                Console.WriteLine($"{person.GetName()} paid ${moneyGiven} for your service.");
+            }
+            else
+            {
+                Console.WriteLine($"You failed {person.GetName()}'s inspection, and your tavern license has been revoked.");
+            }
+            //Console.WriteLine("Unsucessfuly Served");
         }
 
     }
 
+    static void CountDown(int duration)
+    {
+        for(int i = duration; i > 0; i--)
+        {
+            Console.Write(i);
+            Thread.Sleep(1000);
+            Console.Write("\b \b");
+        }
+    }
+
     static void InventoryOrder(Tavern tavern, List<Item> items)
     {
+        int CostOfAll = 0;
+        foreach(Item item in items)
+        {
+            CostOfAll += item.GetCost();
+        }
+
         bool done = false;
         while(!done)
         {
@@ -170,25 +231,55 @@ class Program
                 case 2:
                     Console.WriteLine($"Money Available: {tavern.GetMoney()}");
                     Console.WriteLine("Items available:");
-                    for(int i = 0; i < items.Count; i++)
+                    int i = 0;
+                    for(i = 0; i < items.Count; i++)
                     {
                         Console.WriteLine($"{i+1}. {items[i]} ${items[i].GetCost()}");
                     }
+                    Console.WriteLine($"{i+1} Buy one of all ${CostOfAll}");
                     Console.Write("Item to order: ");
                     int input2 = int.Parse(Console.ReadLine());
-                    Item itemToOrder = items[input2-1];
-                    Console.Write("How many items to order: ");
-                    int quantity = int.Parse(Console.ReadLine());
-                    for(int j = 0; j < quantity; j++)
+                    if(input2 == (i+1))
                     {
-                        tavern.AddItemToInventory(itemToOrder);
+                        if(tavern.GetMoney() < CostOfAll)
+                        {
+                            Console.WriteLine("You cant afford that, try again.");
+                        }
+                        else
+                        {
+                            BuyOneOfAll(items, tavern);
+                        }
+                    }
+                    else
+                    {
+                        Item itemToOrder = items[input2-1];
+                        Console.Write("How many items to order: ");
+                        int quantity = int.Parse(Console.ReadLine());
+                        if(itemToOrder.GetCost()*quantity > tavern.GetMoney())
+                        {
+                            Console.WriteLine("You cant afford that, try again.");
+                        }
+                        else
+                        {
+                            for(int j = 0; j < quantity; j++)
+                            {
+                                tavern.AddItemToInventory(itemToOrder);
+                            }
+                        }
                     }
                     break;
                 case 3:
                     tavern.DisplayFinances();
                     break;
                 case 4:
-                    done = true;
+                    if(tavern.GetInventory().Count > 0)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please buy some foodstuffs to sell");
+                    }
                     break;
             }
         }
@@ -212,24 +303,35 @@ class Program
         };
         Till till = new Till();
         Random random = new Random();
-        int startingMoney = random.Next(16, 30);
+        int startingMoney = random.Next(20, 30);
         Tavern tavern = new Tavern(till);
         tavern.AddMoney(startingMoney);
-        foreach(Item item in items)
-        {
-            tavern.AddItemToInventory(item);
-        }
+        //BuyOneOfAll(items, tavern);
         Scaling scaling = new Scaling();
+        int peopleToServeBeforeBreak = 0;
+        int peopleServed = 0;
         while(!tavern.GetFailure())
         {
-            InventoryOrder(tavern, items);
+            if(peopleServed == peopleToServeBeforeBreak)
+            {
+                tavern.incrementDaysSurvived();
+                InventoryOrder(tavern, items);
+                peopleServed = 0;
+                peopleToServeBeforeBreak = random.Next(1,5 + (int)MathF.Ceiling(tavern.GetScore()/2));
+
+            }
+            
             List<Person> persons = new List<Person>();
             persons.Add(CreateRandomPerson(items, scaling, tavern));
 
 
             ServeCustomer(persons[0], tavern);
+            peopleServed++;
+
 
         }
+        tavern.DisplayStats();
+        tavern.DisplayFinances();
         
     }
 }
