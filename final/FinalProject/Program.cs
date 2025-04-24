@@ -236,6 +236,18 @@ class Program
         Scaling scaling = new Scaling();
         int peopleToServeBeforeBreak = 0;
         int peopleServed = 0;
+        var startColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            
+        Console.WriteLine(@" _____                            _   __                
+|_   _|                          | | / /                
+  | | __ ___   _____ _ __ _ __   | |/ /  ___  ___ _ __  
+  | |/ _` \ \ / / _ \ '__| '_ \  |    \ / _ \/ _ \ '_ \ 
+  | | (_| |\ V /  __/ |  | | | | | |\  \  __/  __/ |_) |
+  \_/\__,_| \_/ \___|_|  |_| |_| \_| \_/\___|\___| .__/ 
+                                                 | |    
+                                                 |_|    ");
+        Console.ForegroundColor = startColor;
         while(!tavern.GetFailure())
         {
             if(peopleServed == peopleToServeBeforeBreak)

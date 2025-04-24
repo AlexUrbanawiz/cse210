@@ -15,7 +15,6 @@ class Customer : Person
     {
         tavern.incrementCustomersServed();
         tavern.AddMoney(moneyBase-1);
-
     }
     public int GetMoneyBase()
     {
