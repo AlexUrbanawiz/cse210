@@ -5,6 +5,7 @@ class Program
     static void Main(string[] args)
     {
         //Homework 1
+        
         Console.Write("What is your first name? ");
         string first_name = Console.ReadLine();
         Console.Write("What is your last name? ");
