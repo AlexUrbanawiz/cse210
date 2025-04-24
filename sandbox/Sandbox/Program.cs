@@ -5,7 +5,22 @@ class Program
     static void Main(string[] args)
     {
 
-        Console.WriteLine("Hello Sandbox World");
+        Circle myCircle = new Circle();
+        Circle myCircle2 = new Circle(2);
+
+        // Console.WriteLine(myCircle.GetArea().ToString("0.00"));
+        // Console.WriteLine(myCircle2.GetArea().ToString("0.00"));
+
+        // Console.WriteLine(myCircle.GetCircumfrence());
+        // Console.WriteLine(myCircle2.GetCircumfrence());
+
+        // Console.WriteLine(myCircle.GetDiameter());
+        // Console.WriteLine(myCircle2.GetDiameter());
+        
+        myCircle.Display();
+        myCircle2.Display();
+
+        Console.WriteLine("Welcome to sandbox");
     }
 }
 
