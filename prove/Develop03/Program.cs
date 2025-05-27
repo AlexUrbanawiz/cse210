@@ -66,15 +66,15 @@ class Program
 {
     static void Main(string[] args)
     {
-        Reference alma28 = new Reference("Alma 28:13","And thus we see how great the inequality of man is because of sin and transgression, and the power of the devil, which comes by the cunning plans which he hath devised to ensnare the hearts of men");
+        Reference alma28 = new Reference("Alma 28:13", "And thus we see how great the inequality of man is because of sin and transgression, and the power of the devil, which comes by the cunning plans which he hath devised to ensnare the hearts of men");
         Reference threeNephi6 = new Reference("3 Nephi 6:7-8", "And it came to pass that there were many cities built anew, and there were many old cities repaired.", "And there were many highways cast up, and many roads made, which led from city to city, and from land to land, and from place to place.");
-        //Scripture myScripture = new Scripture("Alma 30:25", "Ye say that this people is a guilty and a fallen people, because of the transgression of a parent. Behold, I say that a child is not guilty because of its parents.");
-        // myScripture.AddScripture(alma28);
-        // myScripture.AddScripture(threeNephi6);
-        Scripture myScripture = new Scripture(threeNephi6);
+        Scripture myScripture = new Scripture("Alma 30:25", "Ye say that this people is a guilty and a fallen people, because of the transgression of a parent. Behold, I say that a child is not guilty because of its parents.");
         myScripture.AddScripture(alma28);
+        myScripture.AddScripture(threeNephi6);
+        // Scripture myScripture = new Scripture(threeNephi6);
+        // myScripture.AddScripture(alma28);
         myScripture.SelectRandomScripture();
-        while(myScripture.GetActiveState())
+        while (myScripture.GetActiveState())
         {
             myScripture.Display();
         }

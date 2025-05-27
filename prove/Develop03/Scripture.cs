@@ -89,9 +89,9 @@ class Scripture
         Console.WriteLine(currentScripture.Display());
         Console.WriteLine("Type enter to continue, quit to quit, random for a random scripture, or reset to reset all scriptures.");
         string answer = Console.ReadLine();
-        if(answer.ToLower() == "enter")
+        if (answer.ToLower() == "enter")
         {
-            if(currentScripture.GetNumWordsHidden() < currentScripture.GetNumWordsInScripture())
+            if (currentScripture.GetNumWordsHidden() < currentScripture.GetNumWordsInScripture())
             {
                 HideWord();
             }
@@ -108,15 +108,15 @@ class Scripture
             }
 
         }
-        else if(answer.ToLower() == "quit")
+        else if (answer.ToLower() == "quit")
         {
             Quit();
         }
-        else if(answer.ToLower() == "random")
+        else if (answer.ToLower() == "random")
         {
             SelectRandomScripture();
         }
-        else if(answer.ToLower() == "reset")
+        else if (answer.ToLower() == "reset")
         {
             Reset();
         }
@@ -125,5 +125,6 @@ class Scripture
             Console.WriteLine("Not a valid input, try agin");
             Display();
         }
+        Console.Clear();
     }
 }

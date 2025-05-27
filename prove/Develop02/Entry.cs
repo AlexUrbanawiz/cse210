@@ -3,7 +3,6 @@ class Entry
     private string date;
     private string prompt;
     private string response;
-
     public Entry(string date, string prompt, string response)
     {
         this.date = date;
@@ -24,7 +23,7 @@ class Entry
     public string GetEntryForFile()
     {
         string entry = $"{date}|{prompt}|{response}";
-        return entry;
+        return entry; 
     }
 
 }

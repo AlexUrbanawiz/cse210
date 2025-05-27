@@ -59,13 +59,16 @@ class Program
             "Describe a book, movie, or piece of art that has impacted you and why."
         };
 
-
         Journal myJournal = new Journal(journalPrompts);
-        while(myJournal.GetActiveState())
+
+        while (myJournal.GetActiveState())
         {
             myJournal.DisplayMenu();
             myJournal.ProcessMenu();
         }
+
+        
+        
     }
 
     
