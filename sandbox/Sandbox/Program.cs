@@ -8,16 +8,7 @@ class Program
     }
     static void Main(string[] args)
     {
-        int x = 0;
-        int y = x++;
-        //int x = 0;
-        //int y = x;
-        //x ++;
-
-        y = ++x;
-        //x ++;
-        //y = x;
-        Console.WriteLine(AddNumber(1222.333, 122.33));
+        
     }
 
 }
